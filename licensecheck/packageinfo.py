@@ -163,12 +163,12 @@ def getMyPackageMetadata() -> dict[str, Any]:
 	if Path("pyproject.toml").exists():
 		pyproject = tomli.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
 		tool = pyproject.get("tool",{})
+		if "project" in tool:
+			return tool["project"]
 		if "poetry" in tool:
 			return tool["poetry"]
 		if "flit" in tool:
 			return tool["flit"]["metadata"]
-		if pyproject.get("project") is not None:
-			return pyproject["project"]
 
 	return {"classifiers": [], "license": ucstr("")}
 
